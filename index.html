@@ -1,92 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO -->
-    <title>Juan Agustín | Mi primer año</title>
-    <meta name="description"
-        content="Te invitamos a celebrar el primer año de Juan Agustín. ¡Una aventura entre estrellas!">
-
-    <!-- OPEN GRAPH - WHATSAPP -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="¡Juan Agustín cumple su primer año!">
-    <meta property="og:description" content="Una aventura entre estrellas. Te esperamos el 28 de noviembre de 2026.">
-    <meta property="og:url" content="https://nicolastomatis.github.io/JuanAgustin/">
-    <meta property="og:image" content="https://nicolastomatis.github.io/JuanAgustin/images/invitacion.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Invitación al primer cumpleaños de Juan Agustín">
-
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Un viaje entre las nubes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500&family=Playpen+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
+<main id="scene" class="state-day">
+  <div class="sky sky-day"></div>
+  <div class="sky sky-dusk"></div>
+  <div class="sky sky-night"></div>
+  <div class="sunlight"></div>
 
+  <div id="camera">
+    <div id="stars" class="layer"></div>
+    <div id="clouds" class="layer"></div>
+  </div>
 
-    <section class="hero__inicio" id="inicio">
+  <div class="moon" aria-hidden="true"><img src="images/luna.png" alt="" draggable="false"></div>
+  <div id="sparks" aria-hidden="true"></div>
+  <div id="sit" aria-hidden="true"><img src="images/principito-luna.png" alt="" draggable="false"></div>
+  <div id="prince" aria-hidden="true"><img src="images/principito.png" alt="" draggable="false"></div>
 
-        <div class="estrellas"></div>
+  <section id="intro" class="panel">
+    <p>Un viaje entre las nubes</p>
+    <h1>Una aventura está por comenzar...</h1>
+    <button id="start" class="btn">✦ Comenzar el viaje ✦</button>
+  </section>
 
-        <!-- Nubes -->
-        <img class="nube1" src="./images/1.png" alt="">
-        <img class="nube2" src="./images/2.png" alt="">
-        <img class="nube3" src="./images/3.png" alt="">
-        <img class="nube4" src="./images/4.png" alt="">
-        <img class="nube5" src="./images/5.png" alt="">
+  <section id="outro" class="panel" aria-live="polite">
+    <h2>¡Juan Agustín cumple 1 año!</h2>
+    <p>Te invitamos a celebrar su primer cumpleaños.</p>
+    <div class="invite">
+      <span class="when">Sábado 28 de noviembre</span>
+      <span class="when">A partir de las 12:00 hs.</span>
+      <span class="where">En la quinta de J.J. Almeyra</span>
+    </div>
+  </section>
 
-        <!-- Presentación del viaje -->
-        <div class="inicio__contenido">
-
-            <h1>Una aventura está por comenzar...</h1>
-            <p>Hay estrellas que esperan ser descubiertas.</p>
-
-            <button class="btn__viaje" id="iniciarViaje">
-                <span>Iniciar viaje</span>
-                <span class="flecha">✦</span>
-            </button>
-
-        </div>
-
-        <!-- Avioneta -->
-        <div class="avioneta" id="avioneta">
-
-            <svg viewBox="0 0 180 100" xmlns="http://www.w3.org/2000/svg">
-
-                <!-- Ala trasera -->
-                <path d="M55 49 L110 35 L120 41 L65 57 Z" fill="#C98B42" stroke="#704B2A" stroke-width="2" />
-
-                <!-- Cola -->
-                <path d="M35 49 L17 32 L25 29 L53 48 Z" fill="#E9B96E" stroke="#704B2A" stroke-width="2" />
-
-                <!-- Cuerpo -->
-                <path d="M20 54 Q65 38 120 48 Q148 53 165 49
-                     Q155 65 119 65 L35 62 Z" fill="#EBC17E" stroke="#704B2A" stroke-width="2" />
-
-                <!-- Cabina -->
-                <path d="M83 46 Q91 27 108 36 L116 49 Z" fill="#9AC6D9" stroke="#704B2A" stroke-width="2" />
-
-                <!-- Ala delantera -->
-                <path d="M62 57 L120 48 L137 55 L76 68 Z" fill="#F2D49C" stroke="#704B2A" stroke-width="2" />
-
-                <!-- Hélice -->
-                <path d="M166 37 Q180 50 166 63" fill="none" stroke="#F4D37C" stroke-width="4" stroke-linecap="round" />
-
-                <!-- Estrella decorativa -->
-                <path d="M57 51 L60 55 L65 55 L61 59 L62 64
-                     L57 61 L53 64 L54 59 L50 55 L55 55 Z" fill="#D69B39" />
-
-            </svg>
-
-        </div>
-
-    </section>
-
-
-    <script src="js/script.js"></script>
+  <button id="restart" class="btn-ghost">↻ Volver al comienzo</button>
+</main>
+<script src="js/script.js"></script>
 </body>
-
 </html>

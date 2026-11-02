@@ -1,0 +1,473 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0
+}
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Playpen Sans', 'Fredoka', system-ui, sans-serif
+}
+#scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #bfe3ff
+}
+.sky, .sunlight, .layer, #camera {
+  position: absolute;
+  inset: 0
+}
+.sky {
+  opacity: 0;
+  will-change: opacity
+}
+.sky-day {
+  opacity: 1;
+  background: radial-gradient(ellipse 60% 40% at 20% 75%, rgba(255, 214, 230, .7), transparent 70%), radial-gradient(ellipse 50% 35% at 75% 40%, rgba(255, 255, 255, .5), transparent 70%), linear-gradient(180deg, #a9d8ff 0%, #cfe8ff 50%, #ffe6ef 100%)
+}
+.sky-dusk {
+  background: radial-gradient(ellipse 60% 40% at 70% 70%, rgba(255, 200, 220, .6), transparent 70%), linear-gradient(180deg, #9a82dc 0%, #cfa0e0 45%, #ffc2d8 100%)
+}
+.sky-night {
+  background: radial-gradient(ellipse 55% 40% at 25% 70%, rgba(190, 150, 240, .35), transparent 70%), radial-gradient(ellipse 50% 35% at 80% 30%, rgba(120, 140, 230, .3), transparent 70%), linear-gradient(180deg, #1f2670 0%, #35358a 55%, #6a4a9e 100%)
+}
+#scene::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  opacity: .22;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/><feColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")
+}
+.sunlight {
+  background: radial-gradient(circle at 82% 12%, rgba(255, 236, 170, .95), rgba(255, 214, 150, .35) 22%, transparent 45%);
+  transition: opacity 1s
+}
+#camera {
+  transform-origin: 50% 100%;
+  will-change: transform
+}
+/* nubes */
+.cloud {
+  position: absolute;
+  will-change: transform, opacity;
+  left: 0;
+  top: 0
+}
+.cloud-inner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none
+}
+.cloud-inner.v1 img {
+  filter: hue-rotate(115deg) saturate(1.1) brightness(1.06)
+}
+.cloud-inner.v2 img {
+  filter: hue-rotate(45deg) saturate(1.05) brightness(1.05)
+}
+.cloud-inner {
+  position: relative;
+  width: 100%;
+  animation: drift var(--dur) linear infinite alternate;
+  animation-delay: var(--delay)
+}
+@keyframes drift {
+  from {
+    transform: translateX(-4vw)
+  }
+  to {
+    transform: translateX(4vw)
+  }
+}
+/* estrellas */
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff8dc;
+  opacity: 0;
+  box-shadow: 0 0 6px 1px rgba(255, 255, 230, .8)
+}
+.star.on {
+  animation: appear 2s ease forwards, twinkle var(--tw) ease-in-out calc(var(--d) + 2s) infinite
+}
+.star.big {
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  height: auto;
+  filter: drop-shadow(0 0 6px rgba(255, 225, 150, .9))
+}
+@keyframes appear {
+  to {
+    opacity: var(--o)
+  }
+}
+@keyframes twinkle {
+  0%, 100% {
+    opacity: var(--o);
+    transform: scale(1)
+  }
+  50% {
+    opacity: calc(var(--o)*.25);
+    transform: scale(.6)
+  }
+}
+#stars .star {
+  animation-delay: var(--d), calc(var(--d) + 2s)
+}
+/* luna */
+/* paneles */
+.panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.5rem;
+  gap: 1.2rem;
+  z-index: 5;
+  transition: opacity 1.2s ease, transform 1.2s ease
+}
+.panel h1, .panel h2 {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 500;
+  color: #fff;
+  font-size: clamp(2.2rem, 7vw, 4.6rem);
+  line-height: 1.1;
+  text-shadow: 0 3px 0 rgba(160, 130, 220, .45), 0 8px 24px rgba(120, 100, 200, .35)
+}
+.panel p {
+  color: #fff;
+  font-size: clamp(1rem, 2.6vw, 1.5rem);
+  text-shadow: 0 2px 10px rgba(110, 90, 190, .45);
+  max-width: 34ch
+}
+#outro {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px)
+}
+.state-night #outro p {
+  animation: none
+}
+.state-rising #intro, .state-night #intro {
+  opacity: 0;
+  transform: translateY(-30px) scale(.96);
+  pointer-events: none
+}
+.state-rising #intro {
+  transition-duration: 1.6s
+}
+.btn {
+  font: 500 clamp(1rem, 2.4vw, 1.3rem) 'Fredoka', sans-serif;
+  color: #7b5fc4;
+  background: linear-gradient(135deg, #fff, #ffe6f1);
+  border: 3px solid #fff;
+  border-radius: 999px;
+  padding: .9rem 2.2rem;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(150, 120, 210, .35);
+  transition: transform .3s ease, box-shadow .3s ease
+}
+.btn:hover, .btn:focus-visible {
+  transform: translateY(-4px) scale(1.06);
+  box-shadow: 0 14px 30px rgba(150, 120, 210, .5);
+  outline: none
+}
+.btn:active {
+  transform: scale(.97)
+}
+#restart {
+  position: absolute;
+  bottom: max(1.5rem, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  opacity: 0;
+  pointer-events: none;
+  background: rgba(255, 255, 255, .08);
+  color: rgba(255, 255, 255, .8);
+  border: 1px solid rgba(255, 255, 255, .3);
+  border-radius: 999px;
+  padding: .55rem 1.3rem;
+  font: inherit;
+  font-size: .95rem;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: opacity 1.5s ease, background .3s
+}
+#restart:hover, #restart:focus-visible {
+  background: rgba(255, 255, 255, .2);
+  outline: none
+}
+#restart.show {
+  opacity: 1;
+  pointer-events: auto
+}
+@media (prefers-reduced-motion:reduce) {
+  .cloud-inner, .moon, .star.on {
+    animation: none !important
+  }
+  .star.on {
+    opacity: var(--o)
+  }
+  .panel, .moon {
+    transition-duration: .01s !important;
+    transition-delay: 0s !important
+  }
+}
+/* El Principito */
+#prince {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 4;
+  width: clamp(150px, 30vmin, 300px);
+  pointer-events: none;
+  transform: translate3d(calc(50vw - 50%), -3vh, 0);
+  transition: transform 10s cubic-bezier(.45, .05, .3, 1)
+}
+#prince img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform-origin: 50% 30%;
+  animation: fly 5s ease-in-out infinite;
+  filter: drop-shadow(0 10px 14px rgba(120, 100, 190, .3))
+}
+@keyframes fly {
+  0%, 100% {
+    transform: translateY(0) rotate(-2deg)
+  }
+  50% {
+    transform: translateY(-14px) rotate(2.5deg)
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  #prince img {
+    animation: none
+  }
+  #prince {
+    transition-duration: .01s
+  }
+}
+/* legibilidad sobre nubes */
+#intro h1 {
+  color: #7a5fc8;
+  text-shadow: 0 0 18px rgba(255, 255, 255, .95), 0 0 6px #fff, 0 3px 0 rgba(255, 255, 255, .8)
+}
+#intro p {
+  color: #6a52a6;
+  font-weight: 600;
+  text-shadow: 0 0 12px #fff, 0 0 5px #fff
+}
+#prince {
+  width: clamp(130px, 26vmin, 260px)
+}
+#restart {
+  white-space: nowrap;
+  width: max-content
+}
+/* ---- v3: invitación, pensada para celular ---- */
+#prince {
+  width: clamp(210px, 62vw, 330px);
+  transform-origin: 50% 100%;
+  transform: translate3d(calc(50vw - 50%), -2vh, 0) scale(1)
+}
+.state-night #outro h2 {
+  font-size: clamp(1.9rem, 9vw, 3rem)
+}
+.invite {
+  margin-top: .6rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  align-items: center;
+  padding: 1rem 1.6rem;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, .12);
+  border: 1.5px solid rgba(255, 255, 255, .4);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(40, 30, 110, .5);
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 1.6s ease, transform 1.6s ease
+}
+.invite .kicker {
+  font-size: 1rem
+}
+.invite strong {
+  font: 500 clamp(2rem, 10vw, 3.2rem)/1.05 'Fredoka', sans-serif;
+  color: #ffe9a8
+}
+.invite .when {
+  font-size: 1.05rem;
+  margin-top: .3rem
+}
+.invite .where {
+  font: 500 1.15rem 'Fredoka', sans-serif;
+  color: #ffe9a8
+}
+@media (prefers-reduced-motion:reduce) {
+  .invite {
+    transition-duration: .01s;
+    transition-delay: 0s !important
+  }
+}
+/* ---- v4: el Principito vuela, aterriza en la Luna y se sienta ---- */
+.moon {
+  position: absolute;
+  left: 50%;
+  bottom: 16vh;
+  z-index: 3;
+  width: min(46vw, 260px);
+  opacity: 0;
+  transform: translate(-50%, 55vh);
+  transition: opacity 2.5s ease, transform 4.5s cubic-bezier(.2, .7, .2, 1)
+}
+.moon img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 20px rgba(235, 240, 255, .6));
+  animation: bob 6s ease-in-out infinite
+}
+.moon-in .moon {
+  opacity: 1;
+  transform: translate(-50%, 0)
+}
+.landed .moon {
+  opacity: 0;
+  transition: opacity 1.4s ease;
+  transition-delay: .3s
+}
+@keyframes bob {
+  50% {
+    transform: translateY(-6px)
+  }
+}
+#prince {
+  transition: transform 10s cubic-bezier(.45, .05, .3, 1), opacity 1.2s ease
+}
+.state-rising #prince {
+  transform: translate3d(calc(50vw - 50%), -46vh, 0) scale(1)
+}
+.state-night #prince {
+  transform: translate3d(calc(50vw - 50%), -31vh, 0) scale(.6);
+  transition: transform 3.6s cubic-bezier(.4, 0, .2, 1), opacity 1.2s ease
+}
+.landed #prince {
+  opacity: 0
+}
+#sit {
+  position: absolute;
+  left: 50%;
+  bottom: 11vh;
+  z-index: 4;
+  width: min(60vw, 320px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 6px) scale(.85);
+  transition: opacity 1.6s ease .2s, transform 1.8s cubic-bezier(.2, .8, .3, 1.2) .2s
+}
+#sit img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 8px 16px rgba(20, 20, 80, .35));
+  animation: bob 6s ease-in-out infinite
+}
+.landed #sit {
+  opacity: 1;
+  transform: translate(-50%, -25%) scale(1.5);
+
+}
+.state-night #outro {
+  justify-content: flex-start;
+  padding-top: 6vh;
+  gap: .8rem
+}
+.landed #outro {
+  opacity: 1;
+  transform: none;
+  transition-delay: 1.2s
+}
+.landed .invite {
+  opacity: 1;
+  transform: none;
+  transition-delay: 3s
+}
+.state-night #restart.show, .state-rising #restart.show {
+  opacity: .85
+}
+#sparks {
+  position: absolute;
+  left: 50%;
+  bottom: 34vh;
+  z-index: 6;
+  pointer-events: none
+}
+.spark {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  margin: -9px;
+  opacity: 0;
+  animation: spark 1.6s ease-out forwards;
+  filter: drop-shadow(0 0 6px rgba(255, 225, 150, .9))
+}
+@keyframes spark {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(.3)
+  }
+  25% {
+    opacity: 1
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(1)
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .moon, .moon img, #sit, #sit img {
+    animation: none !important;
+    transition-duration: .01s !important;
+    transition-delay: 0s !important
+  }
+  .spark {
+    display: none
+  }
+}
+.invite .when {
+  white-space: nowrap;
+  font-size: clamp(.9rem, 4.4vw, 1.05rem)
+}
+@media (max-height:700px) {
+  #sit {
+    width: min(48vw, 260px);
+    bottom: 10vh
+  }
+  .state-night #outro {
+    padding-top: 4vh;
+    gap: .5rem
+  }
+  .state-night #outro h2 {
+    font-size: clamp(1.7rem, 8vw, 2.4rem)
+  }
+  .invite {
+    padding: .7rem 1.2rem;
+    margin-top: .2rem
+  }
+}
