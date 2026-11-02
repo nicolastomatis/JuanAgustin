@@ -1,0 +1,220 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,900;1,100;1,300;1,400;1,500;1,900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+    font-family: roboto;
+    font-weight: 400;
+    background-color: #122266;
+    color: #888;
+}
+
+
+.hero__inicio {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    background: #122266;
+    z-index: 1;
+}
+
+/* ESTRELLAS */
+
+.estrellas {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image:
+        radial-gradient(2px 2px at 40px 60px, #fff1a8 99%, transparent),
+        radial-gradient(1px 1px at 120px 150px, #ffe66d 99%, transparent),
+        radial-gradient(2px 2px at 220px 90px, #fff1a8 99%, transparent),
+        radial-gradient(1px 1px at 300px 200px, #ffe66d 99%, transparent),
+        radial-gradient(2px 2px at 390px 40px, #fff1a8 99%, transparent),
+        radial-gradient(1px 1px at 480px 130px, #ffe66d 99%, transparent);
+
+    background-size: 520px 250px;
+    animation: parpadeo 3s ease-in-out infinite;
+}
+
+@keyframes parpadeo {
+    0%, 100% { opacity: .4; }
+    50% { opacity: 1; }
+}
+
+/* NUBES */
+
+.hero__inicio > img {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    z-index: 2;
+    pointer-events: none;
+    transition:
+        transform 2s cubic-bezier(.55, 0, .8, .3),
+        opacity 1.5s ease;
+}
+
+.nube1 { bottom: 400px; }
+.nube2 { bottom: 300px; }
+.nube3 { bottom: 200px; }
+.nube4 { bottom: 100px; }
+.nube5 { bottom: 0px; }
+
+/* CONTENIDO CENTRAL */
+
+.inicio__contenido {
+    position: absolute;
+    z-index: 4;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    text-align: center;
+    color: #fff4d0;
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.inicio__contenido h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(25px, 4vw, 42px);
+    font-weight: normal;
+    margin-bottom: 15px;
+}
+
+.inicio__contenido p {
+    font-size: 16px;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+}
+
+/* BOTÓN */
+
+.btn__viaje {
+    padding: 14px 30px;
+    border: 1px solid #f4d37c;
+    border-radius: 50px;
+    background: transparent;
+    color: #ffe9a6;
+    font-size: 16px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.btn__viaje:hover {
+    background: #f4d37c;
+    color: #122266;
+    box-shadow: 0 0 25px #ffe9a6;
+}
+
+.flecha {
+    margin-left: 10px;
+}
+
+/* AVIONETA */
+
+.avioneta {
+    position: absolute;
+    z-index: 5;
+    width: 150px;
+    left: 50%;
+    top: 65%;
+    transform: translate(-50%, -50%);
+    animation: flotar 3s ease-in-out infinite;
+    transition: opacity .5s ease;
+}
+
+.avioneta svg {
+    width: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 5px 8px rgba(0,0,0,.25));
+}
+
+@keyframes flotar {
+    0%, 100% {
+        margin-top: 0;
+    }
+    50% {
+        margin-top: -12px;
+    }
+}
+
+/* INICIO DEL VIAJE */
+
+/* Las nubes salen hacia abajo */
+
+.hero__inicio.viaje-iniciado .nube1 {
+    transform: translateY(130vh) scale(2);
+    transition-delay: .25s;
+}
+
+.hero__inicio.viaje-iniciado .nube2 {
+    transform: translateY(140vh) scale(1.7);
+    transition-delay: .20s;
+}
+
+.hero__inicio.viaje-iniciado .nube3 {
+    transform: translateY(150vh) scale(1.5);
+    transition-delay: .15s;
+}
+
+.hero__inicio.viaje-iniciado .nube4 {
+    transform: translateY(160vh) scale(1.3);
+    transition-delay: .10s;
+}
+
+.hero__inicio.viaje-iniciado .nube5 {
+    transform: translateY(170vh) scale(1.1);
+    transition-delay: .1s;
+}
+
+/* Desaparece el texto */
+
+.hero__inicio.viaje-iniciado .inicio__contenido {
+    opacity: 0;
+    transform: translate(-50%, -100%);
+    pointer-events: none;
+}
+
+/* La avioneta despega */
+
+.hero__inicio.viaje-iniciado .avioneta {
+    animation: despegar 2.5s ease-in forwards;
+}
+
+@keyframes despegar {
+    0% {
+        top: 65%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(0deg);
+        opacity: 1;
+    }
+
+    40% {
+        transform: translate(-50%, -50%) rotate(-12deg);
+    }
+
+    100% {
+        top: -20%;
+        left: 110%;
+        transform: translate(-50%, -50%) rotate(-20deg);
+        opacity: 0;
+    }
+}
+
+/* Accesibilidad */
+
+@media (prefers-reduced-motion: reduce) {
+    .estrellas, .avioneta {
+        animation: none;
+    }
+}
